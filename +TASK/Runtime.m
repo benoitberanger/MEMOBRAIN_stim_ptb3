@@ -58,6 +58,10 @@ try
         evt_name     = EP.Data{evt,columns.event_name};
         evt_onset    = EP.Data{evt,columns.onset_s_};
         evt_duration = EP.Data{evt,columns.duration_s_};
+        trial        = EP.Data{evt,columns.x_trial};
+        block        = EP.Data{evt,columns.x_block};
+        stim         = EP.Data{evt,columns.x_stim};
+        stim_type    = EP.Data{evt,columns.stim_type};
         content      = EP.Data{evt,columns.content};
         
         if evt < nEvents
@@ -101,6 +105,14 @@ try
                 ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});
                 
                 if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrameFrontBuffer(wPtr,moviePtr, round(evt_duration/S.PTB.Video.IFI)); end
+                
+                fprintf('#trial=%2d   #block=%1d   #stim=%2d   stim_type=%5s   content=%5s \n',...
+                    trial,...
+                    block,...
+                    stim,...
+                    stim_type,...
+                    content...
+                    )
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
                 next_onset = StartTime + next_evt_onset - slack;
