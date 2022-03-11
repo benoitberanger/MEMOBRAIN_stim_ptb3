@@ -69,42 +69,46 @@ EP.AddStartTime('StartTime',0);
 
 % --- Stim ----------------------------------------------------------------
 
-count = 0;
+counter_trial = 0;
+counter_block = 0;
 for iBlock = 1 : p.nStimBlock
     
     % Baseline
+    counter_block = counter_block + 1;
     for iStim = 1 : p.nStimPerBlock
-        count = count + 1;
+        counter_trial = counter_trial + 1;
         switch Task
             case 'Language'
                 stim_type = 'text';
                 content = 'xxxxx';
         end
-        EP.AddPlanning({'Baseline' NextOnset(EP) p.durStim count iBlock iStim  stim_type content})
+        EP.AddPlanning({'Baseline' NextOnset(EP) p.durStim counter_trial counter_block iStim  stim_type content})
     end
     
     % Activation
+    counter_block = counter_block + 1;
     for iStim = 1 : p.nStimPerBlock
-        count = count + 1;
+        counter_trial = counter_trial + 1;
         switch Task
             case 'Language'
                 stim_type = 'text';
                 content = 'xxxxx';
         end
-        EP.AddPlanning({'Activation' NextOnset(EP) p.durStim count iBlock iStim  stim_type content})
+        EP.AddPlanning({'Activation' NextOnset(EP) p.durStim counter_trial counter_block iStim  stim_type content})
     end
     
 end
 
 % Last Baseline, so Activation is surrounded by Baseline
+counter_block = counter_block + 1;
 for iStim = 1 : p.nStimPerBlock
-    count = count + 1;
+    counter_trial = counter_trial + 1;
     switch Task
         case 'Language'
             stim_type = 'text';
             content = 'xxxxx';
     end
-    EP.AddPlanning({'Baseline' NextOnset(EP) p.durStim count iBlock iStim  stim_type content})
+    EP.AddPlanning({'Baseline' NextOnset(EP) p.durStim counter_trial counter_block iStim  stim_type content})
 end
 
 % --- Stop ----------------------------------------------------------------
