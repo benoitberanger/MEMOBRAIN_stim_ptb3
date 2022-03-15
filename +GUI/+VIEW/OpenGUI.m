@@ -418,7 +418,7 @@ else % Create the figure
         'HorizontalAlignment','Center',...
         'TooltipString','Send messages via parallel port : useful for Eyelink',...
         'BackgroundColor',figureBGcolor,...
-        'Value',0,...
+        'Value',1,...
         'Callback',@GUI.Checkbox_ParPort_Callback,...
         'CreateFcn',@GUI.Checkbox_ParPort_Callback,...
         'Visible','On');
@@ -540,27 +540,38 @@ else % Create the figure
         'BackgroundColor',figureBGcolor);
     
     TaskList = GUI.MODEL.getTaskList();
-    TaskVect = ones([1 length(TaskList)]);
+    TaskVect_x = ones([1 size(TaskList,2)]);
+    TaskVect_y = ones([1 size(TaskList,1)]);
     
-    o_task = GUI.VIEW.ObjectDispatcher( TaskVect );
+    o_task_x = GUI.VIEW.ObjectDispatcher( TaskVect_x,0 );
+    o_task_y = GUI.VIEW.ObjectDispatcher( TaskVect_y   );
     
-    for i = 1 : length(TaskList)
+    for j = 1 : size(TaskList,2)
         
-        o_task.next();
+        o_task_x.next();
         
-        b_task.x   = o_task.xpos;
-        b_task.w   = o_task.xwidth;
-        b_task.y   = 0.10;
-        b_task.h   = 0.80;
-        b_task.tag = sprintf('pushbutton_%s', TaskList{i});
-        handles.(b_task.tag) = uicontrol(handles.uipanel_Task       ,...
-            'Style'          , 'pushbutton'                         ,...
-            'Units'          , 'Normalized'                         ,...
-            'Position'       , [b_task.x b_task.y b_task.w b_task.h],...
-            'String'         , TaskList{i}                          ,...
-            'BackgroundColor', buttonBGcolor                        ,...
-            'Tag'            , b_task.tag                           ,...
-            'Callback'       , @GUI.MODEL.Core                      );
+        for i = 1 : size(TaskList,1)
+            
+            o_task_y.next();
+            
+            b_task.x   = o_task_x.xpos;
+            b_task.w   = o_task_x.xwidth;
+            b_task.y   = o_task_y.xpos;
+            b_task.h   = o_task_y.xwidth;
+            b_task.tag = sprintf('pushbutton_%s', TaskList{i,j});
+            handles.(b_task.tag) = uicontrol(handles.uipanel_Task       ,...
+                'Style'          , 'pushbutton'                         ,...
+                'Units'          , 'Normalized'                         ,...
+                'Position'       , [b_task.x b_task.y b_task.w b_task.h],...
+                'String'         , TaskList{i,j}                        ,...
+                'BackgroundColor', buttonBGcolor                        ,...
+                'Tag'            , b_task.tag                           ,...
+                'Callback'       , @GUI.MODEL.Core                      ,...
+                'FontSize'       , 8                                    );
+            
+        end
+        
+        o_task_y.count = 0;
         
     end
     
@@ -706,8 +717,8 @@ else % Create the figure
     % handles=guidata(hObject)
     
     % Init with EYELINK Off
-    set(handles.uipanel_EyelinkMode,'SelectedObject',handles.radiobutton_Eyelink_0)
-    eventdata.NewValue = handles.radiobutton_Eyelink_0;
+    set(handles.uipanel_EyelinkMode,'SelectedObject',handles.radiobutton_Eyelink_1)
+    eventdata.NewValue = handles.radiobutton_Eyelink_1;
     GUI.VIEW.SelectionChangeFcn.uipanel_EyelinkMode(handles.uipanel_EyelinkMode, eventdata)
     
     
