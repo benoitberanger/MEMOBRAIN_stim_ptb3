@@ -16,8 +16,8 @@ p = struct; % This structure will contain all task specific parameters, such as 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Events & blocks
 
-p.nStimBlock     = 3;  % stim blocks, interleaved with rest, task starts & stop with rest blocks
-p.nStimPerBlock  = 12; % number of stim per block, same for activtion & rest
+p.nStimBlock     = 3; % stim blocks, interleaved with rest, task starts & stop with rest blocks
+p.nStimPerBlock  = 8; % number of stim per block, same for activation & rest
 
 
 %% Timings
@@ -54,6 +54,17 @@ p = TASK.Graphics( p );
 p.nTrials = (p.nStimBlock * 2  + 1) * p.nStimPerBlock;
 
 
+%% Get stim
+
+task_info = strsplit(Task,'_');
+Task = task_info{1};
+Category = [task_info{2} '_' task_info{3}];
+
+
+all_list = TASK.(Task).List;
+stim_list = all_list.(Category);
+
+
 %% Build planning
 
 % Create and prepare
@@ -80,7 +91,7 @@ for iBlock = 1 : p.nStimBlock
         switch Task
             case 'Language'
                 stim_type = 'text';
-                content = 'xxxxx';
+                content = stim_list(counter_trial);
         end
         EP.AddPlanning({'Baseline' NextOnset(EP) p.durStim counter_trial counter_block iStim  stim_type content})
     end
@@ -92,7 +103,7 @@ for iBlock = 1 : p.nStimBlock
         switch Task
             case 'Language'
                 stim_type = 'text';
-                content = 'xxxxx';
+                content = stim_list(counter_trial);
         end
         EP.AddPlanning({'Activation' NextOnset(EP) p.durStim counter_trial counter_block iStim  stim_type content})
     end
@@ -106,7 +117,7 @@ for iStim = 1 : p.nStimPerBlock
     switch Task
         case 'Language'
             stim_type = 'text';
-            content = 'xxxxx';
+            content = stim_list(counter_trial);
     end
     EP.AddPlanning({'Baseline' NextOnset(EP) p.durStim counter_trial counter_block iStim  stim_type content})
 end

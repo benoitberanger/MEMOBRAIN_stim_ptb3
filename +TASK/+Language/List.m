@@ -2,7 +2,7 @@ function list = List()
 
 % Recall_Deferred   Recall_Immediate   Encoding_Deferred   Encoding_Immediate
 
-list.Encoding_Immediate = {
+list.Encoding_Immediate = [
     
 "le boufese"
 "la redempo"
@@ -67,9 +67,9 @@ list.Encoding_Immediate = {
 "le suvce"
 "le gnor"
 
-};
+];
 
-list.Encoding_Deferred = {
+list.Encoding_Deferred = [
     
 "la nys"
 "la baglilo"
@@ -162,9 +162,9 @@ list.Encoding_Deferred = {
 "le toter"
 "l'oufan"
 
-};
+];
 
-list.Recall_Immediate = {
+list.Recall_Immediate = [
     
 "le nenac"
 "la gelam"
@@ -228,6 +228,6 @@ list.Recall_Immediate = {
 "la gelam"
 "l'arféte"
 
-};
+];
 
 end % function

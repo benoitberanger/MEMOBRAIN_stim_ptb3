@@ -4,6 +4,10 @@ global S
 try
     %% Tuning of the task
     
+    
+    task_info = strsplit(S.Task,'_');
+    Task = task_info{1};
+    
     TASK.Keybindings();
     [ EP, p ] = TASK.Paradigm( S.Task, S.OperationMode );
     
@@ -17,7 +21,7 @@ try
     %% Initialize stim objects
     
     FIXATIONCROSS = TASK.PREPARE.FixationCross();
-    switch S.Task
+    switch Task
         case 'Language'
             TEXT = TASK.PREPARE.Text();
     end
@@ -91,7 +95,7 @@ try
             case {'Baseline', 'Activation'} % -------------------------------------------------
                 
                 % Draw
-                switch S.Task
+                switch Task
                     case 'Language'
                         TEXT.Draw(content);
                 end
