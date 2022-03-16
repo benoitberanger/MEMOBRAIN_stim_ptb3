@@ -11,8 +11,8 @@ try
     % 'names' for SPM
     
     names = {
-        'Baseline'
-        'Activation'
+        'baseline'
+        'activation'
         };
     
     % 'onsets' & 'durations' for SPM

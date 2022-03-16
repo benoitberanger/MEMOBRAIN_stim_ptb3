@@ -3,7 +3,7 @@ global S
 
 if nargin < 1 % only to plot the paradigme when we execute the function outside of the main script
     OperationMode = 'Acquisition';
-    Task = 'Language';
+    Task = 'Language_Encoding_Immediate';
 end
 
 p = struct; % This structure will contain all task specific parameters, such as Timings and Graphics
@@ -14,12 +14,6 @@ p = struct; % This structure will contain all task specific parameters, such as 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MODIFY FROM HERE....
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Events & blocks
-
-p.nStimBlock     = 3; % stim blocks, interleaved with rest, task starts & stop with rest blocks
-p.nStimPerBlock  = 8; % number of stim per block, same for activation & rest
-
-
 %% Timings
 
 % all in seconds
@@ -49,26 +43,27 @@ p = TASK.Graphics( p );
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Define a planning <--- paradigme
+%% Load .csv
 
-p.nTrials = (p.nStimBlock * 2  + 1) * p.nStimPerBlock;
-
-
-%% Get stim
 
 task_info = strsplit(Task,'_');
 Task = task_info{1};
 Category = [task_info{2} '_' task_info{3}];
 
+switch Task
+    case 'Language'
+        filepath = fullfile(pwd, '+TASK', ['+' Task], [Category '.csv']);
+        assert(exist(filepath,'file')>0, 'file does not exist : %s', filepath)
+        stim_list = read_and_parse(filepath);
+end
 
-all_list = TASK.(Task).List;
-stim_list = all_list.(Category);
+p.nTrials = size(stim_list,1);
 
 
 %% Build planning
 
 % Create and prepare
-header = { 'event_name', 'onset(s)', 'duration(s)', '#trial',  '#block', '#stim', 'stim_type', 'content'};
+header = { 'event_name', 'onset(s)', 'duration(s)', '#trial',  'stim_type', 'content'};
 EP     = EventPlanning(header);
 
 % NextOnset = PreviousOnset + PreviousDuration
@@ -80,47 +75,17 @@ EP.AddStartTime('StartTime',0);
 
 % --- Stim ----------------------------------------------------------------
 
-counter_trial = 0;
-counter_block = 0;
-for iBlock = 1 : p.nStimBlock
-    
-    % Baseline
-    counter_block = counter_block + 1;
-    for iStim = 1 : p.nStimPerBlock
-        counter_trial = counter_trial + 1;
-        switch Task
-            case 'Language'
-                stim_type = 'text';
-                content = stim_list(counter_trial);
-        end
-        EP.AddPlanning({'Baseline' NextOnset(EP) p.durStim counter_trial counter_block iStim  stim_type content})
-    end
-    
-    % Activation
-    counter_block = counter_block + 1;
-    for iStim = 1 : p.nStimPerBlock
-        counter_trial = counter_trial + 1;
-        switch Task
-            case 'Language'
-                stim_type = 'text';
-                content = stim_list(counter_trial);
-        end
-        EP.AddPlanning({'Activation' NextOnset(EP) p.durStim counter_trial counter_block iStim  stim_type content})
-    end
-    
-end
 
-% Last Baseline, so Activation is surrounded by Baseline
-counter_block = counter_block + 1;
-for iStim = 1 : p.nStimPerBlock
-    counter_trial = counter_trial + 1;
+for iStim = 1 : p.nTrials
     switch Task
         case 'Language'
             stim_type = 'text';
-            content = stim_list(counter_trial);
+            condition = stim_list{iStim,2};
+            content   = stim_list{iStim,1};
     end
-    EP.AddPlanning({'Baseline' NextOnset(EP) p.durStim counter_trial counter_block iStim  stim_type content})
+    EP.AddPlanning({condition NextOnset(EP) p.durStim iStim stim_type content});
 end
+
 
 % --- Stop ----------------------------------------------------------------
 
@@ -154,3 +119,20 @@ S.TaskParam = TaskParam;
 
 
 end % function
+
+function out = read_and_parse( fname )
+
+% Read
+fid = fopen(deblank(fname), 'rt');
+if fid == -1
+    error('file cannot be opened : %s', deblank(filename))
+end
+content = fread(fid, '*char')'; % read the whole file as a single char
+fclose(fid);
+
+% Parse
+lines = strsplit(content,sprintf('\n'))'; lines(end) = [];
+res = regexp(lines, ',', 'split');
+out = vertcat(res{:});
+
+end

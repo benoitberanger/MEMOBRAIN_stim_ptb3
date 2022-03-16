@@ -63,8 +63,6 @@ try
         evt_onset    = EP.Data{evt,columns.onset_s_};
         evt_duration = EP.Data{evt,columns.duration_s_};
         trial        = EP.Data{evt,columns.x_trial};
-        block        = EP.Data{evt,columns.x_block};
-        stim         = EP.Data{evt,columns.x_stim};
         stim_type    = EP.Data{evt,columns.stim_type};
         content      = EP.Data{evt,columns.content};
         
@@ -92,7 +90,7 @@ try
                 S.ER.AddStopTime( 'StopTime' , StopTime - StartTime );
                 
                 
-            case {'Baseline', 'Activation'} % -------------------------------------------------
+            case {'baseline', 'activation'} % -------------------------------------------------
                 
                 % Draw
                 switch Task
@@ -110,11 +108,9 @@ try
                 
                 if S.MovieMode, PTB_ENGINE.VIDEO.MOVIE.AddFrameFrontBuffer(wPtr,moviePtr, round(evt_duration/S.PTB.Video.IFI)); end
                 
-                fprintf('#trial=%2d   #block_type=%10s   #block=%1d   #stim=%2d   stim_type=%5s   content=%5s \n',...
+                fprintf('#trial=%2d   #block_type=%10s  stim_type=%5s   content=%5s \n',...
                     trial,...
                     evt_name,...
-                    block,...
-                    stim,...
                     stim_type,...
                     content...
                     )
