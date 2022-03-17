@@ -101,7 +101,7 @@ try
                     case 'Landscapes'
                         IMAGE(trial).Load();
                         IMAGE(trial).MakeTexture();
-%                         IMAGE(trial).Move(S.PTB.Video.wRect(3:4)/2);
+                        IMAGE(trial).Maximize();
                         IMAGE(trial).Draw();
                         IMAGE(trial).CloseTexture();
                 end

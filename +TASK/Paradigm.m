@@ -24,7 +24,7 @@ p.durStim = 3.0;
 
 switch OperationMode
     case 'FastDebug'
-        p.durStim = 0.1;
+        p.durStim = 0.2;
     case 'RealisticDebug'
         
     case 'Acquisition'

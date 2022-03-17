@@ -12,7 +12,11 @@ classdef Image < PTB_OBJECTS.VIDEO.Base
         center    (1,2) double      % [X-center-PTB, Y-center-PTB] in pixels, PTB coordinates
         mask      (1,:) char   = '' % mask of the images : str = 'NoMask', 'ShuffleMask', 'DarkMask'
         
+        
         % Internal variables
+        
+        screen_x  (1,1) double % number of horizontal pixels of the screen
+        screen_y  (1,1) double % number of vertical   pixels of the screen
         
         X         % image matrix
         map       % color map
