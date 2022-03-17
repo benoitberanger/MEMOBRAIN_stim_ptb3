@@ -20,12 +20,12 @@ p = struct; % This structure will contain all task specific parameters, such as 
 p.durStim = 3.0;
 
 % this value is used to maximize onset accuracy by anticipation of the JPG loading time
+% the velue depends on the hardware, in particular which disk type the data is stored. HDD are slow, SSD are fast
 switch Task
     case 'Language'
-        p.maxDurLoading = 0; % !! no need this anticipation for words, since there is no image tyo load
-    case 'Landscapes'
+        p.maxDurLoading = 0; % !! no need this anticipation for words, since there is no image to load
+    case {'Landscapes', 'Objects'}
         p.maxDurLoading = 0.400;
-        
 end
 
 
@@ -67,9 +67,9 @@ switch Task
         % load CSV file : it contains the stim (the word) and the condition
         filepath = fullfile(pwd, '+TASK', ['+' Task], [Category '.csv']);
         assert(exist(filepath,'file')>0, 'file does not exist : %s', filepath)
-        stim_list = read_and_parse(filepath);
+        stim_list = read_and_parse_CSV(filepath);
         
-    case 'Landscapes'
+    case {'Landscapes','Objects'}
         
         % Load JPG files
         filedir = fullfile(pwd, '+TASK', ['+' Task], Category);
@@ -113,7 +113,7 @@ EP.AddStartTime('StartTime',0);
 switch Task
     case 'Language'
         stim_type = 'text';
-    case 'Landscapes'
+    case {'Landscapes', 'Objects'}
         stim_type = 'image';
 end
 
@@ -158,7 +158,7 @@ S.TaskParam = TaskParam;
 
 end % function
 
-function out = read_and_parse( fname )
+function out = read_and_parse_CSV( fname )
 
 % Read
 fid = fopen(deblank(fname), 'rt');

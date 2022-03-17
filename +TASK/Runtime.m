@@ -24,7 +24,7 @@ try
     switch Task
         case 'Language'
             TEXT  = TASK.PREPARE.Text ();
-        case 'Landscapes'
+        case {'Landscapes','Objects'}
             IMAGE = TASK.PREPARE.Image();
     end
     
@@ -98,7 +98,7 @@ try
                 switch Task
                     case 'Language'
                         TEXT.Draw(content);
-                    case 'Landscapes'
+                    case {'Landscapes','Objects'}
                         IMAGE(trial).Load();
                         IMAGE(trial).MakeTexture();
                         IMAGE(trial).Maximize();
