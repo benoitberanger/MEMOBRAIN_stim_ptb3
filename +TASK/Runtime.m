@@ -110,6 +110,7 @@ try
                 % Flip at the right moment
                 desired_onset =  StartTime + evt_onset - slack;
                 real_onset = Screen('Flip', wPtr, desired_onset);
+                if S.ParPort, PARPORT.SendMessage(S.ParPortMessages.(evt_name), S.ParPortMessages.duration); end
                 
                 % Save onset
                 ER.AddEvent({evt_name real_onset-StartTime [] EP.Data{evt, 4:end}});

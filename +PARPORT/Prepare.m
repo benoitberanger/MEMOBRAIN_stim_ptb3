@@ -10,9 +10,8 @@ WriteParPort(0)
 %% Prepare messages
 
 % fill here...
-msg.Event01 = 1;
-msg.Event02 = 2;
-msg.Event03 = 3;
+msg.baseline   = 1;
+msg.activation = 0;
 
 
 %% Finalize
