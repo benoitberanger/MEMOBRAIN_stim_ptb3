@@ -124,6 +124,8 @@ try
                     content...
                     )
                 
+                has_responded = 0;
+                
                 % While loop for most of the duration of the event, so we can press ESCAPE
                 next_onset = StartTime + next_evt_onset - slack - p.maxDurLoading;
                 while secs < next_onset
@@ -132,6 +134,12 @@ try
                     if keyIsDown
                         EXIT = keyCode(KEY_ESCAPE);
                         if EXIT, break, end
+                        
+                        if keyCode(KEY_Catch) && ~has_responded
+                            has_responded = 1;
+                            fprintf('>>> click <<<\n')
+                        end
+                        
                     end
                     
                 end % while
@@ -159,12 +167,6 @@ try
     
     
     %% End of task execution stuff
-    
-    %     switch Task
-    %         case 'Language'
-    %         case 'Landscapes'
-    %             Screen('Close',[IMAGE.texPtr]);
-    %     end
     
     % Save some values
     S.StartTime = StartTime;
