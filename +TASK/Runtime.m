@@ -99,7 +99,11 @@ try
                     case 'Language'
                         TEXT.Draw(content);
                     case 'Landscapes'
+                        IMAGE(trial).Load();
+                        IMAGE(trial).MakeTexture();
+%                         IMAGE(trial).Move(S.PTB.Video.wRect(3:4)/2);
                         IMAGE(trial).Draw();
+                        IMAGE(trial).CloseTexture();
                 end
                 Screen('DrawingFinished', wPtr);
                 
@@ -155,11 +159,11 @@ try
     
     %% End of task execution stuff
     
-    switch Task
-        case 'Language'
-        case 'Landscapes'
-            Screen('Close',[IMAGE.texPtr]);
-    end
+    %     switch Task
+    %         case 'Language'
+    %         case 'Landscapes'
+    %             Screen('Close',[IMAGE.texPtr]);
+    %     end
     
     % Save some values
     S.StartTime = StartTime;

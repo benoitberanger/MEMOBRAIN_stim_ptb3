@@ -54,18 +54,21 @@ switch Task
     
     case 'Language'
         
+        % load CSV file : it contains the stim (the word) and the condition
         filepath = fullfile(pwd, '+TASK', ['+' Task], [Category '.csv']);
         assert(exist(filepath,'file')>0, 'file does not exist : %s', filepath)
         stim_list = read_and_parse(filepath);
         
     case 'Landscapes'
         
+        % Load JPG files
         filedir = fullfile(pwd, '+TASK', ['+' Task], Category);
         files = dir(fullfile(filedir,'*jpg'));
+        % the filename do not contain the condition , but it indicates the block number
+        % and we know that it starts with a baseline block
         name = strrep({files.name}, '.jpg', '')';
         stim_ = regexp(name,'_','split');
         stim_cell = vertcat(stim_{:});
-        % stim_num = str2double(stim_cell(:,1));
         cond_ = stim_cell(:,2);
         res = regexp(cond_, 'B(\d)P\d+', 'tokens'); res = vertcat(res{:}); res = vertcat(res{:});
         block_idx = str2double(res);
