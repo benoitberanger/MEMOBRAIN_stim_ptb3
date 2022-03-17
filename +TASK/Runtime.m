@@ -23,7 +23,9 @@ try
     FIXATIONCROSS = TASK.PREPARE.FixationCross();
     switch Task
         case 'Language'
-            TEXT = TASK.PREPARE.Text();
+            TEXT  = TASK.PREPARE.Text ();
+        case 'Landscapes'
+            IMAGE = TASK.PREPARE.Image();
     end
     
     %% Shortcuts
@@ -96,6 +98,8 @@ try
                 switch Task
                     case 'Language'
                         TEXT.Draw(content);
+                    case 'Landscapes'
+                        IMAGE(trial).Draw();
                 end
                 Screen('DrawingFinished', wPtr);
                 
@@ -150,6 +154,12 @@ try
     
     
     %% End of task execution stuff
+    
+    switch Task
+        case 'Language'
+        case 'Landscapes'
+            Screen('Close',[IMAGE.texPtr]);
+    end
     
     % Save some values
     S.StartTime = StartTime;

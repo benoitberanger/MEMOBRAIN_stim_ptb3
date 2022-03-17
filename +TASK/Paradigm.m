@@ -78,6 +78,7 @@ switch Task
         
 end
 
+p.stim_list = stim_list;
 p.nTrials = size(stim_list,1);
 
 
@@ -96,14 +97,17 @@ EP.AddStartTime('StartTime',0);
 
 % --- Stim ----------------------------------------------------------------
 
+switch Task
+    case 'Language'
+        stim_type = 'text';
+    case 'Landscapes'
+        stim_type = 'image';
+end
 
 for iStim = 1 : p.nTrials
-    switch Task
-        case 'Language'
-            stim_type = 'text';
-            condition = stim_list{iStim,2};
-            content   = stim_list{iStim,1};
-    end
+    
+    condition = stim_list{iStim,2};
+    content   = stim_list{iStim,1};
     EP.AddPlanning({condition NextOnset(EP) p.durStim iStim stim_type content});
 end
 

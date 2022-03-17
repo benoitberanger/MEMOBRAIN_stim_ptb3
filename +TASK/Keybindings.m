@@ -11,7 +11,9 @@ switch S.Environement
         switch Task
             
             case 'Language'
-                S.Keybinds.TaskSpecific.Catch = KbName('b'); % blue   in right hand
+                S.Keybinds.TaskSpecific.Catch = KbName('b'); % blue in right hand
+            case 'Landscapes'
+                S.Keybinds.TaskSpecific.Catch = KbName('b'); % blue in right hand
                 
         end
         
@@ -21,7 +23,8 @@ switch S.Environement
             
             case 'Language'
                 S.Keybinds.TaskSpecific.Catch = KbName('RightArrow');
-                
+            case 'Language'
+                S.Keybinds.TaskSpecific.Catch = KbName('RightArrow');
         end
         
 end
