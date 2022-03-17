@@ -19,12 +19,22 @@ p = struct; % This structure will contain all task specific parameters, such as 
 % all in seconds
 p.durStim = 3.0;
 
+% this value is used to maximize onset accuracy by anticipation of the JPG loading time
+switch Task
+    case 'Language'
+        p.maxDurLoading = 0; % !! no need this anticipation for words, since there is no image tyo load
+    case 'Landscapes'
+        p.maxDurLoading = 0.400;
+        
+end
+
 
 %% Debugging
 
 switch OperationMode
     case 'FastDebug'
         p.durStim = 0.2;
+        p.maxDurLoading = 0;
     case 'RealisticDebug'
         
     case 'Acquisition'

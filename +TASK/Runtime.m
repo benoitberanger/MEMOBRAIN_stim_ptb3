@@ -124,7 +124,7 @@ try
                     )
                 
                 % While loop for most of the duration of the event, so we can press ESCAPE
-                next_onset = StartTime + next_evt_onset - slack;
+                next_onset = StartTime + next_evt_onset - slack - p.maxDurLoading;
                 while secs < next_onset
                     
                     [keyIsDown, secs, keyCode] = KbCheck();
