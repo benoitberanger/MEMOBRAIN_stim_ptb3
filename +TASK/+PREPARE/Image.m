@@ -1,7 +1,7 @@
 function [ IMAGE ] = Image()
 global S
 
-task_info = strsplit(S.Task,'_');
+task_info = regexp(S.Task,'_','split');
 Task = task_info{1};
 Category = [task_info{2} '_' task_info{3}];
 filedir = fullfile(pwd, '+TASK', ['+' Task], Category);

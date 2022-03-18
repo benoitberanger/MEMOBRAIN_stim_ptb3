@@ -8,6 +8,10 @@ end
 
 p = struct; % This structure will contain all task specific parameters, such as Timings and Graphics
 
+task_info = regexp(S.Task,'_','split');
+Task = task_info{1};
+Category = [task_info{2} '_' task_info{3}];
+
 
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -55,11 +59,6 @@ p = TASK.Graphics( p );
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Load .csv
 
-
-task_info = strsplit(Task,'_');
-Task = task_info{1};
-Category = [task_info{2} '_' task_info{3}];
-
 switch Task
     
     case 'Language'
@@ -98,7 +97,7 @@ p.nTrials = size(stim_list,1);
 %% Build planning
 
 % Create and prepare
-header = { 'event_name', 'onset(s)', 'duration(s)', '#trial',  'stim_type', 'content'};
+header = { 'event_name', 'onset', 'duration', 'trial',  'stim_type', 'content'};
 EP     = EventPlanning(header);
 
 % NextOnset = PreviousOnset + PreviousDuration
@@ -169,7 +168,7 @@ content = fread(fid, '*char')'; % read the whole file as a single char
 fclose(fid);
 
 % Parse
-lines = strsplit(content,sprintf('\n'))'; lines(end) = [];
+lines = regexp(content,sprintf('\n'),'split')'; lines(end) = [];
 res = regexp(lines, ',', 'split');
 out = vertcat(res{:});
 
