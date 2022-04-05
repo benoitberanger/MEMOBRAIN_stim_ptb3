@@ -4,7 +4,7 @@ self.content = content;
 
 Screen('TextSize' , self.wPtr, round(self.size) );
 
-%[nx, ny, textbounds, wordbounds] = DrawFormattedText(win, tstring [, sx][, sy][, color][, wrapat][, flipHorizontal][, flipVertical][, vSpacing][, righttoleft][, winRect])
-DrawFormattedText(self.wPtr, self.content, 'center', 'center', self.color, [], [], [], [], [], self.rect);
+[~, offsetBoundsRect, textHeight, xAdvance] = Screen('TextBounds', self.wPtr, self.content,  self.center(1), self.center(2));
+Screen('DrawText', self.wPtr, self.content, offsetBoundsRect(1)-xAdvance/2, offsetBoundsRect(2)-textHeight/2, self.color);
 
 end % function
