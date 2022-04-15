@@ -41,7 +41,7 @@ else % Create the figure
         'Name'            , gui_name                 , ...
         'NumberTitle'     , 'off'                    , ...
         'Units'           , 'Pixels'                 , ...
-        'Position'        , [50, 50, 600, 700]       , ...
+        'Position'        , [50, 50, 600, 800]       , ...
         'Tag'             , gui_name                 );
     
     figureBGcolor = [0.9 0.9 0.9]; set(figHandle,'Color',figureBGcolor);
@@ -58,7 +58,7 @@ else % Create the figure
     %% Panel proportions
     
     % relative proportions of each panel, from bottom to top
-    PANEL = GUI.VIEW.PanelDispatcher( [0.5 0.75 1.5 1 0.75 0.75 1.5 ] );
+    PANEL = GUI.VIEW.PanelDispatcher( [0.5 0.75 0.5 1.5 1 0.75 0.75 1.5 ] );
     
     
     %% Panel : Subject & Run
@@ -521,59 +521,99 @@ else % Create the figure
         'Callback','Eyelink.ForceShutDown');
     
     
-    %% Panel : Task
+    %% Panel : memory Task
     
-    p_task.x = PANEL.x_pos;
-    p_task.w = PANEL.x_width ;
+    p_mtask.x = PANEL.x_pos;
+    p_mtask.w = PANEL.x_width ;
     
     %----------------------------------------------------------------------
     %
     
     PANEL.next();
-    p_task.y = PANEL.y_pos;
-    p_task.h = PANEL.y_height;
+    p_mtask.y = PANEL.y_pos;
+    p_mtask.h = PANEL.y_height;
     
     handles.uipanel_Task = uibuttongroup(handles.(gui_name),...
-        'Title','Task',...
+        'Title','memory Task',...
         'Units', 'Normalized',...
-        'Position',[p_task.x p_task.y p_task.w p_task.h],...
+        'Position',[p_mtask.x p_mtask.y p_mtask.w p_mtask.h],...
         'BackgroundColor',figureBGcolor);
     
     TaskList = GUI.MODEL.getTaskList();
     TaskVect_x = ones([1 size(TaskList,2)]);
     TaskVect_y = ones([1 size(TaskList,1)]);
     
-    o_task_x = GUI.VIEW.ObjectDispatcher( TaskVect_x,0 );
-    o_task_y = GUI.VIEW.ObjectDispatcher( TaskVect_y   );
+    o_mtask_x = GUI.VIEW.ObjectDispatcher( TaskVect_x,0 );
+    o_mtask_y = GUI.VIEW.ObjectDispatcher( TaskVect_y   );
     
     for j = 1 : size(TaskList,2)
         
-        o_task_x.next();
+        o_mtask_x.next();
         
         for i = 1 : size(TaskList,1)
             
-            o_task_y.next();
+            o_mtask_y.next();
             
-            b_task.x   = o_task_x.xpos;
-            b_task.w   = o_task_x.xwidth;
-            b_task.y   = o_task_y.xpos;
-            b_task.h   = o_task_y.xwidth;
-            b_task.tag = sprintf('pushbutton_%s', TaskList{i,j});
-            handles.(b_task.tag) = uicontrol(handles.uipanel_Task       ,...
+            b_mtask.x   = o_mtask_x.xpos;
+            b_mtask.w   = o_mtask_x.xwidth;
+            b_mtask.y   = o_mtask_y.xpos;
+            b_mtask.h   = o_mtask_y.xwidth;
+            b_mtask.tag = sprintf('pushbutton_%s', TaskList{i,j});
+            handles.(b_mtask.tag) = uicontrol(handles.uipanel_Task       ,...
                 'Style'          , 'pushbutton'                         ,...
                 'Units'          , 'Normalized'                         ,...
-                'Position'       , [b_task.x b_task.y b_task.w b_task.h],...
+                'Position'       , [b_mtask.x b_mtask.y b_mtask.w b_mtask.h],...
                 'String'         , TaskList{i,j}                        ,...
                 'BackgroundColor', buttonBGcolor                        ,...
-                'Tag'            , b_task.tag                           ,...
+                'Tag'            , b_mtask.tag                           ,...
                 'Callback'       , @GUI.MODEL.Core                      ,...
                 'FontSize'       , 8                                    );
             
         end
         
-        o_task_y.count = 0;
+        o_mtask_y.count = 0;
         
     end
+    
+    
+    %% Panel : other Task
+    
+    p_otask.x = PANEL.x_pos;
+    p_otask.w = PANEL.x_width ;
+    
+    %----------------------------------------------------------------------
+    %
+    
+    PANEL.next();
+    p_otask.y = PANEL.y_pos;
+    p_otask.h = PANEL.y_height;
+    
+    handles.uipanel_Task = uibuttongroup(handles.(gui_name),...
+        'Title','other Task',...
+        'Units', 'Normalized',...
+        'Position',[p_otask.x p_otask.y p_otask.w p_otask.h],...
+        'BackgroundColor',figureBGcolor);
+    
+    
+    o_otask_x = GUI.VIEW.ObjectDispatcher( 1 );
+    
+    o_otask_x.next();
+    
+    b_otask.x   = o_otask_x.xpos;
+    b_otask.w   = o_otask_x.xwidth;
+    b_otask.y   = 0.05;
+    b_otask.h   = 0.90;
+    b_otask.tag = 'pushbutton_Fluency';
+    handles.(b_otask.tag) = uicontrol(handles.uipanel_Task       ,...
+        'Style'          , 'pushbutton'                         ,...
+        'Units'          , 'Normalized'                         ,...
+        'Position'       , [b_otask.x b_otask.y b_otask.w b_otask.h],...
+        'String'         , 'Fluency'                            ,...
+        'BackgroundColor', buttonBGcolor                        ,...
+        'Tag'            , b_otask.tag                           ,...
+        'Callback'       , @GUI.MODEL.Core                      ,...
+        'FontSize'       , 8                                    );
+    
     
     
     %% Panel : Operation mode
