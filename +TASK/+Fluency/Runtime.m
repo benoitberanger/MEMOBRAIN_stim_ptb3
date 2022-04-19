@@ -36,8 +36,7 @@ try
     
     columns = struct;
     for c = 1 : EP.Columns
-        col_name = matlab.lang.makeValidName( EP.Header{c} );
-        columns.(col_name) = c;
+        columns.(EP.Header{c}) = c;
     end
     
     
@@ -54,12 +53,12 @@ try
         
         % Shortcuts
         evt_name     = EP.Data{evt,columns.event_name};
-        evt_onset    = EP.Data{evt,columns.onset_s_};
-        evt_duration = EP.Data{evt,columns.duration_s_};
+        evt_onset    = EP.Data{evt,columns.onset};
+        evt_duration = EP.Data{evt,columns.duration};
         content      = EP.Data{evt,columns.content};
         
         if evt < nEvents
-            next_evt_onset = EP.Data{evt+1,columns.onset_s_};
+            next_evt_onset = EP.Data{evt+1,columns.onset};
         end
         
         switch evt_name

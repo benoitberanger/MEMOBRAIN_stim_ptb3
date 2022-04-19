@@ -16,7 +16,7 @@ p = struct; % This structure will contain all task specific parameters, such as 
 %% Timings
 
 p.txtInstruction = {'Repos', ...                   % first is the baseline instruction
-    'Des animaux', 'Des fruits', 'Des vÃªtements'}; % and now all activation instructions
+    'Des animaux', 'Des fruits', 'Des vêtements'}; % and now all activation instructions
 
 % all in seconds
 p.durActivation  = 30.0;
@@ -54,7 +54,7 @@ p = TASK.Graphics( p );
 %% Build planning
 
 % Create and prepare
-header = { 'event_name', 'onset(s)', 'duration(s)', 'content'};
+header = { 'event_name', 'onset', 'duration', 'content'};
 EP     = EventPlanning(header);
 
 % NextOnset = PreviousOnset + PreviousDuration
