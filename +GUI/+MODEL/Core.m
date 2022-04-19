@@ -130,8 +130,11 @@ EchoStart(S.Task)
 if strcmp(S.Task, 'EyelinkCalibration')
     Eyelink.Calibration(S.PTB.Video.wPtr);
     S.TaskData.ER.Data = {};
+elseif strcmp(S.Task, 'Fluency')
+    TASK.Fluency.Runtime();
 else
-    % TASK.TASK_1.Parameters <= here is all paramters
+    % TASK.Paradigm <= timings & randomization settings
+    % TASK.Graphics <= visual settings
     TASK.Runtime() % execution of the task
 end
 

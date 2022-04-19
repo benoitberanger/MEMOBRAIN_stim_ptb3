@@ -1,9 +1,6 @@
 function Keybindings()
 global S
 
-task_info = regexp(S.Task,'_','split');
-Task = task_info{1};
-
 switch S.Environement
     
     case 'MRI' %-----------------------------------------------------------
