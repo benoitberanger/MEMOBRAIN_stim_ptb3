@@ -5,7 +5,7 @@ try
     %% Tuning of the task
     
     
-    task_info = strsplit(S.Task,'_');
+    task_info = regexp(S.Task,'_','split');
     Task = task_info{1};
     
     TASK.Keybindings();
@@ -44,8 +44,8 @@ try
     
     columns = struct;
     for c = 1 : EP.Columns
-        col_name = matlab.lang.makeValidName( EP.Header{c} );
-        columns.(col_name) = c;
+%         col_name = matlab.lang.makeValidName( EP.Header{c} );
+        columns.(EP.Header{c}) = c;
     end
     
     
@@ -62,14 +62,14 @@ try
         
         % Shortcuts
         evt_name     = EP.Data{evt,columns.event_name};
-        evt_onset    = EP.Data{evt,columns.onset_s_};
-        evt_duration = EP.Data{evt,columns.duration_s_};
-        trial        = EP.Data{evt,columns.x_trial};
+        evt_onset    = EP.Data{evt,columns.onset};
+        evt_duration = EP.Data{evt,columns.duration};
+        trial        = EP.Data{evt,columns.trial};
         stim_type    = EP.Data{evt,columns.stim_type};
         content      = EP.Data{evt,columns.content};
         
         if evt < nEvents
-            next_evt_onset = EP.Data{evt+1,columns.onset_s_};
+            next_evt_onset = EP.Data{evt+1,columns.onset};
         end
         
         switch evt_name
