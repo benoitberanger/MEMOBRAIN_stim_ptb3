@@ -11,10 +11,10 @@ try
     % 'names' for SPM
     
     if strcmp(S.Task, 'Fluency')
-        names = {
-            'instruction'
+        names = {            
             'baseline'
             'activation'
+            'instruction'
             };
     else
         names = {
